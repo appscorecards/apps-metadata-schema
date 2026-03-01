@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/appscorecards/apps-metadata-schema/schema/scorecard.schema.json",
+  "title": "Scorecard",
+  "description": "Front-matter for a scorecard markdown file in appscorecards/awesome-mobile-apps.",
+  "type": "object",
+  "required": ["app", "category", "platforms", "last_updated", "scores"],
+  "additionalProperties": false,
+  "properties": {
+    "app": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "productivity",
+        "finance",
+        "fitness",
+        "nutrition",
+        "mental-health",
+        "learning",
+        "photo-video",
+        "privacy",
+        "reading-audio",
+        "travel"
+      ]
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["iOS", "Android", "Web", "macOS", "Windows", "Linux"]
+      }
+    },
+    "last_updated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "YYYY-MM of last editorial review."
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accuracy",
+        "core_utility",
+        "privacy",
+        "pricing_transparency",
+        "ux"
+      ],
+      "properties": {
+        "accuracy": { "$ref": "#/$defs/score" },
+        "core_utility": { "$ref": "#/$defs/score" },
+        "privacy": { "$ref": "#/$defs/score" },
+        "pricing_transparency": { "$ref": "#/$defs/score" },
+        "ux": { "$ref": "#/$defs/score" }
+      }
+    },
+    "overall_note": {
+      "type": "string"
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "website": { "type": "string", "format": "uri" },
+        "app_store": { "type": "string", "format": "uri" },
+        "play_store": { "type": "string", "format": "uri" }
+      }
+    }
+  },
+  "$defs": {
+    "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    }
+  }
+}
